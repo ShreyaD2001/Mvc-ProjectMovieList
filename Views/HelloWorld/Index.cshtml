@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "Welcome to Movies World";
+}
+
+<!-- Add some CSS for animation, styling, and stickers -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+    .fade-in {
+        opacity: 0;
+        animation: fadeInAnimation 2s forwards;
+    }
+
+    @@keyframes fadeInAnimation {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* Add a button style */
+    .btn-movie-app {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 1.2em;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-movie-app:hover {
+            background-color: #2980b9;
+        }
+
+    /* Sticker styling */
+    .sticker {
+        width: 50px;
+        height: auto;
+        margin: 10px;
+        display: inline-block;
+    }
+</style>
+
+<div class="container fade-in">
+    <h2>Welcome to Movies World</h2>
+
+    <!-- Stickers added before the text -->
+    <img src="https://img.icons8.com/ios/50/popcorn.png" alt="Popcorn" class="sticker">
+@*     <img src="https://img.icons8.com/ios/50/cinema.png" alt="Cinema" class="sticker">
+ *@    <img src="https://img.icons8.com/ios/50/3d-glasses.png" alt="3D Glasses" class="sticker">
+
+    <p>Hello, please click on the Movie App to get a list of movies.</p>
+
+    <a href="/Movies" class="btn-movie-app">Movie App</a>
+
+    <!-- More stickers added after the button -->
+    <img src="https://img.icons8.com/ios/50/film-reel.png" alt="Film Reel" class="sticker">
+@*     <img src="https://img.icons8.com/ios/50/video-camera.png" alt="Video Camera" class="sticker">
+ *@    <img src="https://img.icons8.com/ios/50/ticket.png" alt="Ticket" class="sticker">
+</div>

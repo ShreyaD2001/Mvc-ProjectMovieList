@@ -1,0 +1,129 @@
+﻿@model IEnumerable<MvcMovie.Models.Movies>
+
+@{
+    ViewData["Title"] = "Index";
+    var searchString = ViewData["CurrentFilter"] as string ?? string.Empty;
+}
+
+<h1 class="text-center">Movies List</h1>
+
+<!-- Search form -->
+<form asp-controller="Movies" asp-action="Index" method="get" class="form-inline justify-content-center my-3">
+    <div class="form-group mx-sm-3 mb-2">
+        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search by title...">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Search</button>
+    <a asp-action="Index" class="btn btn-outline-secondary mb-2 ml-2">Clear</a>
+</form>
+
+<p class="text-center">
+    <a asp-action="Create" class="btn btn-success">Create New</a>
+</p>
+
+@if (Model.Any())
+{
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Genre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th class="text-center">
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <!-- Highlight the search string in the movie title -->
+                        @if (!String.IsNullOrEmpty(searchString) && item.Title.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            @Html.Raw(item.Title.Replace(searchString, $"<span class=\"highlight\">{searchString}</span>", StringComparison.OrdinalIgnoreCase))
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.Title)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm">Details</a>
+                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this movie?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning text-center" role="alert">
+        No movies found matching your search criteria.
+    </div>
+}
+
+<!-- Additional CSS -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #343a40;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .form-inline .form-group input {
+        width: 250px;
+    }
+
+    .table {
+        margin-top: 20px;
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
+    }
+
+    .btn {
+        margin: 2px;
+    }
+
+    .alert {
+        margin-top: 20px;
+    }
+</style>

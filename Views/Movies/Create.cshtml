@@ -1,0 +1,145 @@
+﻿@model MvcMovie.Models.Movies
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 style="color: #333; text-align: center; margin-bottom: 20px;">Create</h1>
+
+<h4 style="color: #555; text-align: center;">Movie</h4>
+<hr style="border: 1px solid #ccc; margin-bottom: 20px;" />
+
+<div class="row">
+    <div class="col-md-4" style="margin: 0 auto; background-color: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 20px;"></div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label asp-for="Title" class="control-label" style="font-weight: bold; color: #444;"></label>
+                <input asp-for="Title" class="form-control" style="border: 1px solid #ccc; padding: 10px;" />
+                <span asp-validation-for="Title" class="text-danger" style="font-size: 12px;"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label asp-for="ReleaseDate" class="control-label" style="font-weight: bold; color: #444;"></label>
+                <input asp-for="ReleaseDate" class="form-control" style="border: 1px solid #ccc; padding: 10px;" />
+                <span asp-validation-for="ReleaseDate" class="text-danger" style="font-size: 12px;"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label asp-for="Genre" class="control-label" style="font-weight: bold; color: #444;"></label>
+                <div class="custom-select-container" style="position: relative;">
+                    <select asp-for="Genre" class="form-control custom-select" style="border: 1px solid #ccc; padding: 10px;" asp-items="ViewBag.GenreList">
+                        <option value="">-- Select Genre --</option>
+                    </select>
+                    <span class="custom-arrow">&#9662;</span> <!-- Dropdown arrow symbol -->
+                </div>
+                <span asp-validation-for="Genre" class="text-danger" style="font-size: 12px;"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label asp-for="ProfileFile" class="control-label" style="font-weight: bold; color: #444;"></label>
+                <input  type="file" class="form-control" id="profileFileInput" onchange="convertToBase64()" />
+                <input asp-for="ProfileFile" type="hidden" id="ProfileFile" name="ProfileFile" />
+                <span asp-validation-for="ProfileFile" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label asp-for="Price" class="control-label" style="font-weight: bold; color: #444;"></label>
+                <input asp-for="Price" class="form-control" style="border: 1px solid #ccc; padding: 10px;" />
+                <span asp-validation-for="Price" class="text-danger" style="font-size: 12px;"></span>
+            </div>
+
+            <div class="form-group" style="text-align: center; margin-top: 20px;">
+                <input type="submit" value="Create" class="btn btn-primary" style="padding: 10px 20px; font-size: 16px;" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+    <a asp-action="Index" style="color: #007bff; text-decoration: none;">Back to List</a>
+</div>
+
+<style>
+    .custom-select-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .custom-select {
+        padding-right: 30px; /* Add space for the custom arrow */
+    }
+
+    .custom-arrow {
+        position: absolute;
+        right: 10px; /* Adjust as needed */
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #333;
+        font-size: 16px;
+    }
+
+    .custom-select:focus {
+        border-color: #007bff; /* Change border color on focus */
+        outline: none;
+    }
+
+    .sticker-container {
+        position: relative;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .sticker {
+        width: 80px;
+        position: absolute;
+        top: -40px;
+        z-index: 1;
+    }
+
+    .sticker-left {
+        left: 10%;
+    }
+
+    .sticker-right {
+        right: 10%;
+    }
+
+    .form-container {
+        margin: 0 auto;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 2;
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        function convertToBase64() {
+            const fileInput = document.getElementById('profileFileInput');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onloadend = function () {
+                    // Get the Base64 string by removing the data URL prefix
+                    const base64String = reader.result.split(',')[1];
+                    console.log("Base64 String:", base64String); // Debugging line
+                    document.getElementById('ProfileFile').value = base64String; // Set the Base64 string to the hidden input
+                };
+
+                reader.readAsDataURL(file); // Read the file as a data URL
+            }
+        }
+    </script>
+}
